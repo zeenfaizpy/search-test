@@ -26,7 +26,6 @@ function SearchBox() {
     useEffect(() => {
         const loadData = async () => {
             const response = await axios.get(URL);
-            // console.log(response.data)
             setData(response.data);
         }
         loadData();
@@ -34,12 +33,21 @@ function SearchBox() {
 
     return (
         <>
+            <h1>Mohammad Faizal</h1>
             <input type="text" value={value} onChange={(e) => onChange(e.target.value)} />
             <div>
                 {
                     items.map((item) => {
                         return (
-                            <span key={item}>{item}<br /></span>
+                            <span key={item}>{
+                                item.split('').map((char) => {
+                                    if (value.toLowerCase().split('').includes(char.toLowerCase())) {
+                                      return <span style={{ color: '#FF0000' }}>{char}</span>;
+                                    } else {
+                                      return <span>{char}</span>;
+                                    }
+                                })
+                            }<br /></span>
                         )
                     })
                 }
