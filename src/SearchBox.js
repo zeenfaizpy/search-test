@@ -5,10 +5,22 @@ const URL = "https://gist.githubusercontent.com/abhijit-paul-blippar/0f97bb6626c
 
 function SearchBox() {
     const [ value, setValue ] = useState("");
-    const [ data, setData ] = useState([]);
+    const [ data, setData ] = useState("");
+    const [ items, setItems ] = useState([]);
 
     const onChange = (value) => {
         setValue(value);
+        let matchedWords = [];
+        if(value.length >= 3){
+            const words = data.split("\n");
+            matchedWords = words.filter(word => {
+                const regex = new RegExp(value, 'gi');
+                return word.match(regex);
+            });
+            setItems(matchedWords);
+        } else {
+            setItems([]);
+        }
     }
 
     useEffect(() => {
@@ -27,10 +39,7 @@ function SearchBox() {
                 {
                     items.map((item) => {
                         return (
-                            <>
-                                <span>{item}</span> <br />
-                            </>
-                            
+                            <span key={item}>{item}<br /></span>
                         )
                     })
                 }
